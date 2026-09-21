@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { createTicket } from "../api/tickets";
 
-const PRIORITY_OPTIONS = [
-  { value: "low", label: "Low" },
-  { value: "medium", label: "Medium" },
-  { value: "high", label: "High" },
-  { value: "urgent", label: "Urgent" },
-];
+const PRIORITY_VALUES = ["low", "medium", "high", "urgent"];
 
 const INITIAL_FORM = {
   subject: "",
@@ -18,6 +14,7 @@ const INITIAL_FORM = {
 };
 
 export default function CustomerTicketForm() {
+  const { t } = useTranslation();
   const [form, setForm] = useState(INITIAL_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [createdTicket, setCreatedTicket] = useState(null);
@@ -38,7 +35,7 @@ export default function CustomerTicketForm() {
       setCreatedTicket(ticket);
       setForm(INITIAL_FORM);
     } catch (err) {
-      setErrors(err.data || { detail: "Something went wrong." });
+      setErrors(err.data || { detail: t("customerForm.genericError") });
     } finally {
       setSubmitting(false);
     }
@@ -48,16 +45,16 @@ export default function CustomerTicketForm() {
     const trackingLink = `${window.location.origin}/t/${createdTicket.public_id}`;
     return (
       <div className="page page-narrow">
-        <h1>Thanks for reaching out</h1>
-        <p>Your support request has been created.</p>
+        <h1>{t("customerForm.thanksTitle")}</h1>
+        <p>{t("customerForm.createdMessage")}</p>
         <p>
           <Link to={`/t/${createdTicket.public_id}`} className="cta-button">
-            Click here to view your ticket
+            {t("customerForm.viewTicketLink")}
           </Link>
         </p>
-        <p className="meta">Save this link to follow up or reply: {trackingLink}</p>
+        <p className="meta">{t("customerForm.saveLink", { link: trackingLink })}</p>
         <button type="button" onClick={() => setCreatedTicket(null)}>
-          Submit another request
+          {t("customerForm.submitAnother")}
         </button>
       </div>
     );
@@ -66,15 +63,15 @@ export default function CustomerTicketForm() {
   return (
     <div className="page page-narrow">
       <div className="page-header">
-        <h1>New Support Request</h1>
+        <h1>{t("customerForm.title")}</h1>
         <Link to="/agent/login" className="link-muted">
-          Agent access
+          {t("customerForm.agentAccess")}
         </Link>
       </div>
 
       <form onSubmit={handleSubmit} className="form">
         <label>
-          Your name
+          {t("customerForm.yourName")}
           <input
             name="requester_name"
             value={form.requester_name}
@@ -84,7 +81,7 @@ export default function CustomerTicketForm() {
         </label>
 
         <label>
-          Your email
+          {t("customerForm.yourEmail")}
           <input
             type="email"
             name="requester_email"
@@ -95,12 +92,12 @@ export default function CustomerTicketForm() {
         </label>
 
         <label>
-          Subject
+          {t("customerForm.subject")}
           <input name="subject" value={form.subject} onChange={handleChange} required />
         </label>
 
         <label>
-          Description
+          {t("customerForm.description")}
           <textarea
             name="description"
             value={form.description}
@@ -111,11 +108,11 @@ export default function CustomerTicketForm() {
         </label>
 
         <label>
-          Priority
+          {t("customerForm.priority")}
           <select name="priority" value={form.priority} onChange={handleChange}>
-            {PRIORITY_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {PRIORITY_VALUES.map((value) => (
+              <option key={value} value={value}>
+                {t(`priority.${value}`)}
               </option>
             ))}
           </select>
@@ -132,7 +129,7 @@ export default function CustomerTicketForm() {
         )}
 
         <button type="submit" disabled={submitting}>
-          {submitting ? "Submitting..." : "Submit request"}
+          {submitting ? t("customerForm.submitting") : t("customerForm.submit")}
         </button>
       </form>
     </div>

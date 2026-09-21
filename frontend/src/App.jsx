@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import CustomerTicketForm from "./pages/CustomerTicketForm";
 import PublicTicketView from "./pages/PublicTicketView";
 import AgentLogin from "./pages/AgentLogin";
@@ -11,6 +12,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <LanguageSwitcher />
         <Routes>
           <Route path="/" element={<CustomerTicketForm />} />
           <Route path="/t/:publicId" element={<PublicTicketView />} />

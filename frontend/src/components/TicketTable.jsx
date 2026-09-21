@@ -1,16 +1,20 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-export default function TicketTable({ tickets, emptyMessage = "No tickets found." }) {
+export default function TicketTable({ tickets, emptyMessage }) {
+  const { t } = useTranslation();
+  const resolvedEmptyMessage = emptyMessage ?? t("common.noTicketsFound");
+
   return (
     <table className="ticket-table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Subject</th>
-          <th>Priority</th>
-          <th>Status</th>
-          <th>Assigned to</th>
-          <th>Requester</th>
+          <th>{t("ticketTable.id")}</th>
+          <th>{t("ticketTable.subject")}</th>
+          <th>{t("ticketTable.priority")}</th>
+          <th>{t("ticketTable.status")}</th>
+          <th>{t("ticketTable.assignedTo")}</th>
+          <th>{t("ticketTable.requester")}</th>
         </tr>
       </thead>
       <tbody>
@@ -21,10 +25,14 @@ export default function TicketTable({ tickets, emptyMessage = "No tickets found.
               <Link to={`/agent/tickets/${ticket.id}`}>{ticket.subject}</Link>
             </td>
             <td>
-              <span className={`badge priority-${ticket.priority}`}>{ticket.priority}</span>
+              <span className={`badge priority-${ticket.priority}`}>
+                {t(`priority.${ticket.priority}`)}
+              </span>
             </td>
             <td>
-              <span className={`badge status-${ticket.status}`}>{ticket.status}</span>
+              <span className={`badge status-${ticket.status}`}>
+                {t(`status.${ticket.status}`)}
+              </span>
             </td>
             <td>{ticket.assigned_agent?.username || "-"}</td>
             <td>{ticket.requester_name}</td>
@@ -33,7 +41,7 @@ export default function TicketTable({ tickets, emptyMessage = "No tickets found.
         {tickets.length === 0 && (
           <tr>
             <td colSpan={6} className="page-status">
-              {emptyMessage}
+              {resolvedEmptyMessage}
             </td>
           </tr>
         )}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import TicketTable from "./TicketTable";
 
 export default function TicketSection({
@@ -8,6 +9,7 @@ export default function TicketSection({
   refreshSignal,
   statusFilterToggle,
 }) {
+  const { t } = useTranslation();
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +19,7 @@ export default function TicketSection({
     setLoading(true);
     fetchTickets()
       .then(setTickets)
-      .catch(() => setError("Could not load tickets."))
+      .catch(() => setError(t("ticketSection.loadError")))
       .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshSignal]);
@@ -42,7 +44,7 @@ export default function TicketSection({
           {statusFilterToggle.label}
         </label>
       )}
-      {loading && <p className="page-status">Loading...</p>}
+      {loading && <p className="page-status">{t("common.loading")}</p>}
       {error && <p className="form-error">{error}</p>}
       {!loading && !error && <TicketTable tickets={visibleTickets} emptyMessage={emptyMessage} />}
     </section>

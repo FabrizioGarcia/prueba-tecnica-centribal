@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import { listAllTickets, listMentions, listMyTickets, listOpenTickets } from "../api/tickets";
 import TicketSection from "../components/TicketSection";
 
 export default function AgentDashboard() {
+  const { t } = useTranslation();
   const { agent, logout } = useAuth();
   const [refreshSignal, setRefreshSignal] = useState(0);
   const [showAllTickets, setShowAllTickets] = useState(false);
@@ -11,11 +13,11 @@ export default function AgentDashboard() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1>Support Tickets</h1>
+        <h1>{t("agentDashboard.title")}</h1>
         <div>
           <span className="agent-name">{agent.username}</span>
           <button type="button" onClick={logout} className="link-button">
-            Log out
+            {t("agentDashboard.logOut")}
           </button>
         </div>
       </div>
@@ -26,7 +28,7 @@ export default function AgentDashboard() {
           onClick={() => setRefreshSignal((n) => n + 1)}
           className="refresh-button"
         >
-          Refresh all
+          {t("agentDashboard.refreshAll")}
         </button>
 
         <label className="checkbox-label">
@@ -35,34 +37,34 @@ export default function AgentDashboard() {
             checked={showAllTickets}
             onChange={(e) => setShowAllTickets(e.target.checked)}
           />
-          Show all tickets
+          {t("agentDashboard.showAllTickets")}
         </label>
       </div>
 
       {!showAllTickets && (
         <>
           <TicketSection
-            title="Open Tickets"
+            title={t("agentDashboard.openTickets")}
             fetchTickets={listOpenTickets}
-            emptyMessage="No open tickets right now."
+            emptyMessage={t("agentDashboard.noOpenTickets")}
             refreshSignal={refreshSignal}
           />
 
           <TicketSection
-            title="Your Tickets"
+            title={t("agentDashboard.yourTickets")}
             fetchTickets={listMyTickets}
-            emptyMessage="You have no tickets assigned."
+            emptyMessage={t("agentDashboard.noAssignedTickets")}
             refreshSignal={refreshSignal}
             statusFilterToggle={{
-              label: "Show resolved/closed",
+              label: t("agentDashboard.showResolvedClosed"),
               hiddenStatuses: ["resolved", "closed"],
             }}
           />
 
           <TicketSection
-            title="Tagged In"
+            title={t("agentDashboard.taggedIn")}
             fetchTickets={listMentions}
-            emptyMessage="No one has tagged you in a note."
+            emptyMessage={t("agentDashboard.noMentions")}
             refreshSignal={refreshSignal}
           />
         </>
@@ -70,9 +72,9 @@ export default function AgentDashboard() {
 
       {showAllTickets && (
         <TicketSection
-          title="All Tickets"
+          title={t("agentDashboard.allTickets")}
           fetchTickets={listAllTickets}
-          emptyMessage="No tickets found."
+          emptyMessage={t("common.noTicketsFound")}
           refreshSignal={refreshSignal}
         />
       )}

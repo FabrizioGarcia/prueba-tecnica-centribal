@@ -1,0 +1,125 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "refresh": "Refresh",
+    "refreshing": "Refreshing...",
+    "noTicketsFound": "No tickets found."
+  },
+  "status": {
+    "open": "Open",
+    "in_progress": "In progress",
+    "resolved": "Resolved",
+    "closed": "Closed"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  },
+  "languageSwitcher": {
+    "changeLanguage": "Change language"
+  },
+  "customerForm": {
+    "thanksTitle": "Thanks for reaching out",
+    "createdMessage": "Your support request has been created.",
+    "viewTicketLink": "Click here to view your ticket",
+    "saveLink": "Save this link to follow up or reply: {{link}}",
+    "submitAnother": "Submit another request",
+    "title": "New Support Request",
+    "agentAccess": "Agent access",
+    "yourName": "Your name",
+    "yourEmail": "Your email",
+    "subject": "Subject",
+    "description": "Description",
+    "priority": "Priority",
+    "submitting": "Submitting...",
+    "submit": "Submit request",
+    "genericError": "Something went wrong."
+  },
+  "publicTicket": {
+    "notFoundError": "We couldn't find that ticket. Check the link and try again.",
+    "refreshError": "Could not refresh messages.",
+    "sendError": "Could not send your message, please try again.",
+    "priorityLabel": "Priority:",
+    "conversation": "Conversation",
+    "supportAgent": "Support agent",
+    "you": "You",
+    "noMessages": "No messages yet. An agent will reply here.",
+    "sendMessage": "Send a message",
+    "sending": "Sending...",
+    "send": "Send"
+  },
+  "agentLogin": {
+    "invalidCredentials": "Invalid username or password.",
+    "title": "Agent Login",
+    "email": "Email",
+    "password": "Password",
+    "signingIn": "Signing in...",
+    "signIn": "Sign in"
+  },
+  "agentDashboard": {
+    "title": "Support Tickets",
+    "logOut": "Log out",
+    "refreshAll": "Refresh all",
+    "showAllTickets": "Show all tickets",
+    "openTickets": "Open Tickets",
+    "noOpenTickets": "No open tickets right now.",
+    "yourTickets": "Your Tickets",
+    "noAssignedTickets": "You have no tickets assigned.",
+    "showResolvedClosed": "Show resolved/closed",
+    "taggedIn": "Tagged In",
+    "noMentions": "No one has tagged you in a note.",
+    "allTickets": "All Tickets"
+  },
+  "agentTicketDetail": {
+    "loadError": "Could not load this ticket.",
+    "refreshCommentsError": "Could not refresh comments.",
+    "updateStatusError": "Could not update status.",
+    "assignError": "Could not assign agent.",
+    "addCommentError": "Could not add comment.",
+    "loadingTicket": "Loading ticket...",
+    "backToList": "Back to list",
+    "requestedBy": "Requested by {{name}} ({{email}})",
+    "assignedTo": "Assigned to: {{agent}}",
+    "unassigned": "Unassigned",
+    "unlockHint": "Assign this ticket to an agent to unlock comments and status changes.",
+    "assignment": "Assignment",
+    "searchByUsername": "Search by username...",
+    "assign": "Assign",
+    "commentsAndConversation": "Comments & conversation",
+    "customer": "Customer",
+    "internal": "Internal",
+    "agentReply": "Agent reply",
+    "noCommentsYet": "No comments yet.",
+    "addComment": "Add comment",
+    "internalNoteCheckbox": "Internal note (not visible to customer)",
+    "tagAgents": "Tag agents (optional)",
+    "addInternalNote": "Add internal note",
+    "replyToCustomer": "Reply to customer",
+    "assignToComment": "Assign this ticket to an agent to add comments.",
+    "close": "Close",
+    "markResolved": "Resolved",
+    "changeHistory": "Change history",
+    "system": "System",
+    "changed": "changed",
+    "from": "from",
+    "to": "to",
+    "noHistoryYet": "No history yet."
+  },
+  "ticketSection": {
+    "loadError": "Could not load tickets."
+  },
+  "ticketTable": {
+    "id": "ID",
+    "subject": "Subject",
+    "priority": "Priority",
+    "status": "Status",
+    "assignedTo": "Assigned to",
+    "requester": "Requester"
+  },
+  "agentAutocomplete": {
+    "searchPlaceholder": "Search agent by username...",
+    "remove": "Remove {{username}}"
+  }
+}

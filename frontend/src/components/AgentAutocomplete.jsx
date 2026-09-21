@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { listAgents } from "../api/agents";
 
 export default function AgentAutocomplete({
@@ -6,9 +7,11 @@ export default function AgentAutocomplete({
   onSelect,
   onRemove,
   multiple = false,
-  placeholder = "Search agent by username...",
+  placeholder,
   excludeIds = [],
 }) {
+  const { t } = useTranslation();
+  const resolvedPlaceholder = placeholder ?? t("agentAutocomplete.searchPlaceholder");
   const [allAgents, setAllAgents] = useState([]);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -47,7 +50,7 @@ export default function AgentAutocomplete({
               <button
                 type="button"
                 onClick={() => onRemove(agent)}
-                aria-label={`Remove ${agent.username}`}
+                aria-label={t("agentAutocomplete.remove", { username: agent.username })}
               >
                 ×
               </button>
@@ -65,7 +68,7 @@ export default function AgentAutocomplete({
           <button
             type="button"
             onClick={() => onRemove(selected)}
-            aria-label={`Remove ${selected.username}`}
+            aria-label={t("agentAutocomplete.remove", { username: selected.username })}
           >
             ×
           </button>
@@ -77,7 +80,7 @@ export default function AgentAutocomplete({
           <input
             type="text"
             value={query}
-            placeholder={placeholder}
+            placeholder={resolvedPlaceholder}
             onChange={(e) => {
               setQuery(e.target.value);
               setOpen(true);

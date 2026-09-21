@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 
 export default function AgentLogin() {
+  const { t } = useTranslation();
   const { agent, login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -25,7 +27,7 @@ export default function AgentLogin() {
       const redirectTo = location.state?.from || "/agent";
       navigate(redirectTo, { replace: true });
     } catch (err) {
-      setError("Invalid username or password.");
+      setError(t("agentLogin.invalidCredentials"));
     } finally {
       setSubmitting(false);
     }
@@ -33,10 +35,10 @@ export default function AgentLogin() {
 
   return (
     <div className="page page-narrow">
-      <h1>Agent Login</h1>
+      <h1>{t("agentLogin.title")}</h1>
       <form onSubmit={handleSubmit} className="form">
         <label>
-          Email
+          {t("agentLogin.email")}
           <input
             type="email"
             value={email}
@@ -45,7 +47,7 @@ export default function AgentLogin() {
           />
         </label>
         <label>
-          Password
+          {t("agentLogin.password")}
           <input
             type="password"
             value={password}
@@ -57,7 +59,7 @@ export default function AgentLogin() {
         {error && <p className="form-error">{error}</p>}
 
         <button type="submit" disabled={submitting}>
-          {submitting ? "Signing in..." : "Sign in"}
+          {submitting ? t("agentLogin.signingIn") : t("agentLogin.signIn")}
         </button>
       </form>
     </div>

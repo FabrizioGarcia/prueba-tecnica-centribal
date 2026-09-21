@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { addPublicMessage, getPublicTicket, listPublicMessages } from "../api/public";
 
 export default function PublicTicketView() {
+  const { t } = useTranslation();
   const { publicId } = useParams();
   const [ticket, setTicket] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -20,7 +22,7 @@ export default function PublicTicketView() {
         setMessages(messagesData);
         setError(null);
       })
-      .catch(() => setError("We couldn't find that ticket. Check the link and try again."))
+      .catch(() => setError(t("publicTicket.notFoundError")))
       .finally(() => setLoading(false));
   }
 
@@ -33,7 +35,7 @@ export default function PublicTicketView() {
     setRefreshingMessages(true);
     return listPublicMessages(publicId)
       .then(setMessages)
-      .catch(() => setError("Could not refresh messages."))
+      .catch(() => setError(t("publicTicket.refreshError")))
       .finally(() => setRefreshingMessages(false));
   }
 
@@ -46,13 +48,13 @@ export default function PublicTicketView() {
       setMessages((prev) => [...prev, message]);
       setBody("");
     } catch {
-      setError("Could not send your message, please try again.");
+      setError(t("publicTicket.sendError"));
     } finally {
       setSending(false);
     }
   }
 
-  if (loading) return <p className="page-status">Loading...</p>;
+  if (loading) return <p className="page-status">{t("common.loading")}</p>;
   if (error) return <p className="form-error">{error}</p>;
   if (!ticket) return null;
 
@@ -60,31 +62,34 @@ export default function PublicTicketView() {
     <div className="page page-narrow">
       <div className="page-header">
         <h1>{ticket.subject}</h1>
-        <span className={`badge status-${ticket.status}`}>{ticket.status}</span>
+        <span className={`badge status-${ticket.status}`}>{t(`status.${ticket.status}`)}</span>
       </div>
 
       <p>{ticket.description}</p>
       <p className="meta">
-        Priority: <span className={`badge priority-${ticket.priority}`}>{ticket.priority}</span>
+        {t("publicTicket.priorityLabel")}{" "}
+        <span className={`badge priority-${ticket.priority}`}>
+          {t(`priority.${ticket.priority}`)}
+        </span>
       </p>
 
       <section>
         <div className="section-header">
-          <h2>Conversation</h2>
+          <h2>{t("publicTicket.conversation")}</h2>
           <button
             type="button"
             onClick={refreshMessages}
             disabled={refreshingMessages}
             className="refresh-button"
           >
-            {refreshingMessages ? "Refreshing..." : "Refresh"}
+            {refreshingMessages ? t("common.refreshing") : t("common.refresh")}
           </button>
         </div>
         <ul className="comment-list">
           {messages.map((message) => {
             const sender = message.author
-              ? { type: "agent-reply", label: "Support agent" }
-              : { type: "customer", label: "You" };
+              ? { type: "agent-reply", label: t("publicTicket.supportAgent") }
+              : { type: "customer", label: t("publicTicket.you") };
 
             return (
               <li key={message.id} className={`comment-${sender.type}`}>
@@ -96,17 +101,17 @@ export default function PublicTicketView() {
             );
           })}
           {messages.length === 0 && (
-            <li className="page-status">No messages yet. An agent will reply here.</li>
+            <li className="page-status">{t("publicTicket.noMessages")}</li>
           )}
         </ul>
 
         <form onSubmit={handleSubmit} className="form form-inline">
           <label>
-            Send a message
+            {t("publicTicket.sendMessage")}
             <textarea value={body} onChange={(e) => setBody(e.target.value)} rows={3} />
           </label>
           <button type="submit" disabled={sending || !body.trim()}>
-            {sending ? "Sending..." : "Send"}
+            {sending ? t("publicTicket.sending") : t("publicTicket.send")}
           </button>
         </form>
       </section>

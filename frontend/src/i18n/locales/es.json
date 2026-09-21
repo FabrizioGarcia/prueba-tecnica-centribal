@@ -1,0 +1,125 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "refresh": "Actualizar",
+    "refreshing": "Actualizando...",
+    "noTicketsFound": "No se encontraron tickets."
+  },
+  "status": {
+    "open": "Abierto",
+    "in_progress": "En progreso",
+    "resolved": "Resuelto",
+    "closed": "Cerrado"
+  },
+  "priority": {
+    "low": "Baja",
+    "medium": "Media",
+    "high": "Alta",
+    "urgent": "Urgente"
+  },
+  "languageSwitcher": {
+    "changeLanguage": "Cambiar idioma"
+  },
+  "customerForm": {
+    "thanksTitle": "Gracias por contactarnos",
+    "createdMessage": "Tu solicitud de soporte fue creada.",
+    "viewTicketLink": "Hacé clic acá para ver tu ticket",
+    "saveLink": "Guardá este link para hacer seguimiento o responder: {{link}}",
+    "submitAnother": "Enviar otra solicitud",
+    "title": "Nueva solicitud de soporte",
+    "agentAccess": "Acceso de agentes",
+    "yourName": "Tu nombre",
+    "yourEmail": "Tu email",
+    "subject": "Asunto",
+    "description": "Descripción",
+    "priority": "Prioridad",
+    "submitting": "Enviando...",
+    "submit": "Enviar solicitud",
+    "genericError": "Algo salió mal."
+  },
+  "publicTicket": {
+    "notFoundError": "No pudimos encontrar ese ticket. Revisá el link e intentá de nuevo.",
+    "refreshError": "No se pudieron actualizar los mensajes.",
+    "sendError": "No se pudo enviar tu mensaje, intentá de nuevo.",
+    "priorityLabel": "Prioridad:",
+    "conversation": "Conversación",
+    "supportAgent": "Agente de soporte",
+    "you": "Vos",
+    "noMessages": "Todavía no hay mensajes. Un agente va a responder acá.",
+    "sendMessage": "Enviar un mensaje",
+    "sending": "Enviando...",
+    "send": "Enviar"
+  },
+  "agentLogin": {
+    "invalidCredentials": "Usuario o contraseña inválidos.",
+    "title": "Ingreso de agentes",
+    "email": "Email",
+    "password": "Contraseña",
+    "signingIn": "Ingresando...",
+    "signIn": "Ingresar"
+  },
+  "agentDashboard": {
+    "title": "Tickets de soporte",
+    "logOut": "Cerrar sesión",
+    "refreshAll": "Actualizar todo",
+    "showAllTickets": "Mostrar todos los tickets",
+    "openTickets": "Tickets abiertos",
+    "noOpenTickets": "No hay tickets abiertos por ahora.",
+    "yourTickets": "Tus tickets",
+    "noAssignedTickets": "No tenés tickets asignados.",
+    "showResolvedClosed": "Mostrar resueltos/cerrados",
+    "taggedIn": "Mencionado en",
+    "noMentions": "Nadie te mencionó en una nota todavía.",
+    "allTickets": "Todos los tickets"
+  },
+  "agentTicketDetail": {
+    "loadError": "No se pudo cargar este ticket.",
+    "refreshCommentsError": "No se pudieron actualizar los comentarios.",
+    "updateStatusError": "No se pudo actualizar el estado.",
+    "assignError": "No se pudo asignar el agente.",
+    "addCommentError": "No se pudo agregar el comentario.",
+    "loadingTicket": "Cargando ticket...",
+    "backToList": "Volver a la lista",
+    "requestedBy": "Solicitado por {{name}} ({{email}})",
+    "assignedTo": "Asignado a: {{agent}}",
+    "unassigned": "Sin asignar",
+    "unlockHint": "Asigná este ticket a un agente para habilitar comentarios y cambios de estado.",
+    "assignment": "Asignación",
+    "searchByUsername": "Buscar por nombre de usuario...",
+    "assign": "Asignar",
+    "commentsAndConversation": "Comentarios y conversación",
+    "customer": "Cliente",
+    "internal": "Interno",
+    "agentReply": "Respuesta de agente",
+    "noCommentsYet": "Todavía no hay comentarios.",
+    "addComment": "Agregar comentario",
+    "internalNoteCheckbox": "Nota interna (no visible para el cliente)",
+    "tagAgents": "Mencionar agentes (opcional)",
+    "addInternalNote": "Agregar nota interna",
+    "replyToCustomer": "Responder al cliente",
+    "assignToComment": "Asigná este ticket a un agente para agregar comentarios.",
+    "close": "Cerrar",
+    "markResolved": "Resolver",
+    "changeHistory": "Historial de cambios",
+    "system": "Sistema",
+    "changed": "cambió",
+    "from": "de",
+    "to": "a",
+    "noHistoryYet": "Todavía no hay historial."
+  },
+  "ticketSection": {
+    "loadError": "No se pudieron cargar los tickets."
+  },
+  "ticketTable": {
+    "id": "ID",
+    "subject": "Asunto",
+    "priority": "Prioridad",
+    "status": "Estado",
+    "assignedTo": "Asignado a",
+    "requester": "Solicitante"
+  },
+  "agentAutocomplete": {
+    "searchPlaceholder": "Buscar agente por nombre de usuario...",
+    "remove": "Quitar a {{username}}"
+  }
+}

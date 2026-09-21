@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
 import AgentAutocomplete from "../components/AgentAutocomplete";
 import {
@@ -12,6 +13,7 @@ import {
 } from "../api/tickets";
 
 export default function AgentTicketDetail() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const { agent } = useAuth();
   const [ticket, setTicket] = useState(null);
@@ -36,7 +38,7 @@ export default function AgentTicketDetail() {
         setComments(commentsData);
         setHistory(historyData);
       })
-      .catch(() => setError("Could not load this ticket."))
+      .catch(() => setError(t("agentTicketDetail.loadError")))
       .finally(() => setLoading(false));
   }
 
@@ -49,7 +51,7 @@ export default function AgentTicketDetail() {
     setRefreshingComments(true);
     return listComments(id)
       .then(setComments)
-      .catch(() => setActionError("Could not refresh comments."))
+      .catch(() => setActionError(t("agentTicketDetail.refreshCommentsError")))
       .finally(() => setRefreshingComments(false));
   }
 
@@ -62,7 +64,9 @@ export default function AgentTicketDetail() {
       const historyData = await getHistory(id);
       setHistory(historyData);
     } catch (err) {
-      setActionError(err.data?.status?.[0] || err.data?.detail || "Could not update status.");
+      setActionError(
+        err.data?.status?.[0] || err.data?.detail || t("agentTicketDetail.updateStatusError")
+      );
     } finally {
       setUpdatingStatus(false);
     }
@@ -79,7 +83,9 @@ export default function AgentTicketDetail() {
       const historyData = await getHistory(id);
       setHistory(historyData);
     } catch (err) {
-      setActionError(err.data?.agent_id?.[0] || err.data?.detail || "Could not assign agent.");
+      setActionError(
+        err.data?.agent_id?.[0] || err.data?.detail || t("agentTicketDetail.assignError")
+      );
     }
   }
 
@@ -94,18 +100,18 @@ export default function AgentTicketDetail() {
       setCommentBody("");
       setTaggedAgents([]);
     } catch (err) {
-      setActionError(err.data?.detail || "Could not add comment.");
+      setActionError(err.data?.detail || t("agentTicketDetail.addCommentError"));
     }
   }
 
-  if (loading) return <p className="page-status">Loading ticket...</p>;
+  if (loading) return <p className="page-status">{t("agentTicketDetail.loadingTicket")}</p>;
   if (error) return <p className="form-error">{error}</p>;
   if (!ticket) return null;
 
   return (
     <div className="page">
       <Link to="/agent" className="link-muted">
-        ← Back to list
+        ← {t("agentTicketDetail.backToList")}
       </Link>
 
       <div className="page-header">
@@ -113,28 +119,37 @@ export default function AgentTicketDetail() {
           #{ticket.id} {ticket.subject}
         </h1>
         <div>
-          <span className={`badge priority-${ticket.priority}`}>{ticket.priority}</span>
-          <span className={`badge status-${ticket.status}`}>{ticket.status}</span>
+          <span className={`badge priority-${ticket.priority}`}>
+            {t(`priority.${ticket.priority}`)}
+          </span>
+          <span className={`badge status-${ticket.status}`}>{t(`status.${ticket.status}`)}</span>
           <button type="button" onClick={loadAll} className="refresh-button">
-            Refresh
+            {t("common.refresh")}
           </button>
         </div>
       </div>
 
       <p>{ticket.description}</p>
       <p className="meta">
-        Requested by {ticket.requester_name} ({ticket.requester_email})
+        {t("agentTicketDetail.requestedBy", {
+          name: ticket.requester_name,
+          email: ticket.requester_email,
+        })}
       </p>
-      <p className="meta">Assigned to: {ticket.assigned_agent?.username || "Unassigned"}</p>
+      <p className="meta">
+        {t("agentTicketDetail.assignedTo", {
+          agent: ticket.assigned_agent?.username || t("agentTicketDetail.unassigned"),
+        })}
+      </p>
       {!ticket.assigned_agent && (
-        <p className="meta">Assign this ticket to an agent to unlock comments and status changes.</p>
+        <p className="meta">{t("agentTicketDetail.unlockHint")}</p>
       )}
 
       {actionError && <p className="form-error">{actionError}</p>}
 
       <section>
         <div className="section-header">
-          <h2>Assignment</h2>
+          <h2>{t("agentTicketDetail.assignment")}</h2>
         </div>
         <div className="assign-card">
           <form onSubmit={handleAssignSubmit} className="form form-inline assign-form">
@@ -142,10 +157,10 @@ export default function AgentTicketDetail() {
               selected={assignTarget}
               onSelect={setAssignTarget}
               onRemove={() => setAssignTarget(null)}
-              placeholder="Search by username..."
+              placeholder={t("agentTicketDetail.searchByUsername")}
             />
             <button type="submit" disabled={!assignTarget}>
-              Assign
+              {t("agentTicketDetail.assign")}
             </button>
           </form>
         </div>
@@ -153,23 +168,23 @@ export default function AgentTicketDetail() {
 
       <section>
         <div className="section-header">
-          <h2>Comments &amp; conversation</h2>
+          <h2>{t("agentTicketDetail.commentsAndConversation")}</h2>
           <button
             type="button"
             onClick={refreshComments}
             disabled={refreshingComments}
             className="refresh-button"
           >
-            {refreshingComments ? "Refreshing..." : "Refresh"}
+            {refreshingComments ? t("common.refreshing") : t("common.refresh")}
           </button>
         </div>
         <ul className="comment-list">
           {comments.map((comment) => {
             const sender = !comment.author
-              ? { type: "customer", label: "Customer" }
+              ? { type: "customer", label: t("agentTicketDetail.customer") }
               : comment.is_internal
-              ? { type: "internal", label: "Internal" }
-              : { type: "agent-reply", label: "Agent reply" };
+              ? { type: "internal", label: t("agentTicketDetail.internal") }
+              : { type: "agent-reply", label: t("agentTicketDetail.agentReply") };
 
             return (
               <li key={comment.id} className={`comment-${sender.type}`}>
@@ -185,13 +200,15 @@ export default function AgentTicketDetail() {
               </li>
             );
           })}
-          {comments.length === 0 && <li className="page-status">No comments yet.</li>}
+          {comments.length === 0 && (
+            <li className="page-status">{t("agentTicketDetail.noCommentsYet")}</li>
+          )}
         </ul>
 
         {ticket.assigned_agent ? (
           <form onSubmit={handleCommentSubmit} className="form form-inline">
             <label>
-              Add comment
+              {t("agentTicketDetail.addComment")}
               <textarea
                 value={commentBody}
                 onChange={(e) => setCommentBody(e.target.value)}
@@ -204,27 +221,29 @@ export default function AgentTicketDetail() {
                 checked={isInternal}
                 onChange={(e) => setIsInternal(e.target.checked)}
               />
-              Internal note (not visible to customer)
+              {t("agentTicketDetail.internalNoteCheckbox")}
             </label>
             {isInternal && (
               <label>
-                Tag agents (optional)
+                {t("agentTicketDetail.tagAgents")}
                 <AgentAutocomplete
                   multiple
                   selected={taggedAgents}
                   onSelect={(a) => setTaggedAgents((prev) => [...prev, a])}
                   onRemove={(a) => setTaggedAgents((prev) => prev.filter((x) => x.id !== a.id))}
-                  placeholder="Search by username..."
+                  placeholder={t("agentTicketDetail.searchByUsername")}
                   excludeIds={[agent.id]}
                 />
               </label>
             )}
             <button type="submit" disabled={!commentBody.trim()}>
-              {isInternal ? "Add internal note" : "Reply to customer"}
+              {isInternal
+                ? t("agentTicketDetail.addInternalNote")
+                : t("agentTicketDetail.replyToCustomer")}
             </button>
           </form>
         ) : (
-          <p className="page-status">Assign this ticket to an agent to add comments.</p>
+          <p className="page-status">{t("agentTicketDetail.assignToComment")}</p>
         )}
       </section>
 
@@ -236,7 +255,7 @@ export default function AgentTicketDetail() {
             onClick={() => handleStatusChange("closed")}
             disabled={updatingStatus || ticket.status !== "resolved"}
           >
-            Close
+            {t("agentTicketDetail.close")}
           </button>
           <button
             type="button"
@@ -244,23 +263,26 @@ export default function AgentTicketDetail() {
             onClick={() => handleStatusChange("resolved")}
             disabled={updatingStatus || ticket.status !== "in_progress"}
           >
-            Resolved
+            {t("agentTicketDetail.markResolved")}
           </button>
         </div>
       )}
 
       <section>
-        <h2>Change history</h2>
+        <h2>{t("agentTicketDetail.changeHistory")}</h2>
         <ul className="history-list">
           {history.map((entry) => (
             <li key={entry.id}>
               <span className="meta">{new Date(entry.changed_at).toLocaleString()}</span>{" "}
-              <strong>{entry.changed_by.username}</strong> changed{" "}
-              <strong>{entry.field_changed}</strong> from "{entry.old_value || "-"}" to "
-              {entry.new_value}"
+              <strong>{entry.changed_by?.username || t("agentTicketDetail.system")}</strong>{" "}
+              {t("agentTicketDetail.changed")} <strong>{entry.field_changed}</strong>{" "}
+              {t("agentTicketDetail.from")} "{entry.old_value || "-"}" {t("agentTicketDetail.to")}{" "}
+              "{entry.new_value}"
             </li>
           ))}
-          {history.length === 0 && <li className="page-status">No history yet.</li>}
+          {history.length === 0 && (
+            <li className="page-status">{t("agentTicketDetail.noHistoryYet")}</li>
+          )}
         </ul>
       </section>
     </div>
